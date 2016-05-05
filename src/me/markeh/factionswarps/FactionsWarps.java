@@ -1,5 +1,6 @@
 package me.markeh.factionswarps;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,18 +34,37 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 	public Map<String, Long> cooldownMap = new HashMap<String, Long>();
 	public Map<String, BukkitTask> warmupMap = new HashMap<String, BukkitTask>();
 	
+	private Metrics metrics;
+	
 	// -------------------------------------------------- //
 	// METHODS  
 	// -------------------------------------------------- //
 	
 	@Override
 	public void onEnable() {
+		
+		if ( ! this.getServer().getPluginManager().isPluginEnabled("FactionsFramework")) {
+			log(ChatColor.RED + "This plugin requires Factions Framework!");
+			log(ChatColor.AQUA + "- Bukkit Dev: " + ChatColor.UNDERLINE + "http://dev.bukkit.org/bukkit-plugins/factionsframework/");
+			log(ChatColor.AQUA + "- Spigot Resources: " + ChatColor.UNDERLINE + "https://www.spigotmc.org/resources/factions-framework.22278/");
+			return;
+		}
+		
 		FactionsCommandManager.get().add(CmdWarp.get());
 		FactionsCommandManager.get().add(CmdWarpAdd.get());
 		FactionsCommandManager.get().add(CmdWarpList.get());
 		FactionsCommandManager.get().add(CmdWarpRemove.get());
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
+		
+		if (Config.get().metrics) {
+			try {
+				metrics = new Metrics(this);
+				metrics.enable();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
@@ -58,6 +78,21 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 		for (WarpData warpData : WarpData.getAll()) {
 			warpData.save();
 		}
+		
+		if (metrics != null) {
+			try {
+				metrics.disable();
+				metrics = null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			metrics = null;
+		}
+	}
+	
+	public void log(String msg) {
+		this.getServer().getConsoleSender().sendMessage(msg);
 	}
 	
 	public void pingWarmup(Player player) {
