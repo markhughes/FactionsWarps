@@ -54,6 +54,18 @@ public class Config extends JSONConf<Config> {
 	// Distance from eneimes 
 	public Double distanceFromEnemiesMinimum = 5.0;
 	public Boolean distanceFromEnemiesIgnoreInOwn = true;
+		
+	// Economy Integration (with Vault)
+	public Double costCreateWarps = 0.0;
+	public Double costRemoveWarps = 0.0;
+	public Double costListWarps = 0.0;
+	public Double costUseWarps = 0.0;
+	
+	public Double refundRemoveWarps = 0.0;
+	
+	public Boolean chargeNotificationOnSuccess = false;
+	public Boolean chargeNotificationOnFail = true;
+	
 	
 	// -------------------------------------------------- //
 	// METHODS  

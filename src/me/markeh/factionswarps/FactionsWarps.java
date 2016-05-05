@@ -15,6 +15,8 @@ import org.bukkit.scheduler.BukkitTask;
 import me.markeh.factionsframework.command.FactionsCommandManager;
 import me.markeh.factionsframework.event.EventFactionsDisband;
 import me.markeh.factionswarps.commands.*;
+import me.markeh.factionswarps.integration.Integration;
+import me.markeh.factionswarps.integration.vault.IntegrationVault;
 import me.markeh.factionswarps.store.WarpData;
 
 public class FactionsWarps extends JavaPlugin implements Listener {
@@ -56,6 +58,9 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 		FactionsCommandManager.get().add(CmdWarpRemove.get());
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
+		
+		// Integrations
+		Integration.add(IntegrationVault.get());
 		
 		if (Config.get().metrics) {
 			try {
