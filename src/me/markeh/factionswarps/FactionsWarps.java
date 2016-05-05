@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -60,7 +61,9 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
 		// Integrations
-		Integration.add(IntegrationVault.get());
+		if (Bukkit.getServer().getPluginManager().isPluginEnabled("Vault")) {
+			Integration.add(IntegrationVault.get());
+		}
 		
 		if (Config.get().metrics) {
 			try {
