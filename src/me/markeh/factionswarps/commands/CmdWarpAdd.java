@@ -1,6 +1,8 @@
 package me.markeh.factionswarps.commands;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import me.markeh.factionsframework.command.FactionsCommand;
 import me.markeh.factionsframework.command.requirements.ReqInFaction;
@@ -47,6 +49,22 @@ public class CmdWarpAdd extends FactionsCommand {
 		
 		// Fetch our warp data
 		WarpData warpData = WarpData.get(this.getFPlayer().getFaction());
+		
+		Player leader = this.getFPlayer().getFaction().getLeader().asBukkitPlayer();
+		for (PermissionAttachmentInfo perm : leader.getEffectivePermissions()) {
+			if (perm.getPermission().startsWith("factionswarps.warplimit.")) {
+				Integer max = Integer.valueOf(perm.getPermission().split(".")[2]);
+				
+				if (warpData.warpLocations.size()+1 > max) {
+					msg("<red>You have reached the maximum amount of warps (<gold>{max}<red>) for this faction!",
+							"max", max.toString());
+					
+					return;
+				}
+				
+				break;
+			}
+		}
 		
 		String name = this.getArg(0);
 		
