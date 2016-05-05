@@ -23,6 +23,8 @@ public class CmdWarpAdd extends FactionsCommand {
 		this.addAlias("addwarp", "setwarp", "createwarp");
 		this.setDescription("add a faction warp");
 		
+		this.setPermission("factions.warp.manage");
+		
 		this.addRequiredArgument("name");
 		this.addOptionalArgument("password", "none");
 		
@@ -68,7 +70,7 @@ public class CmdWarpAdd extends FactionsCommand {
 		
 		for (FactionsCommand command : CmdWarp.get().getSubCommands()) {
 			if (command.getAliases().contains(name)) {
-				msg("<red>You use this name as it is a subcommand.");
+				msg("<red>You can't use this name as it is a subcommand.");
 				return;
 			}
 		}

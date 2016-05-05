@@ -28,14 +28,15 @@ public class CmdWarp extends FactionsCommand {
 	
 	public CmdWarp() {
 		this.addAlias("warp");
-		this.setPermission("factions.warp.help");
+		this.setPermission("factions.warp.use");
 		
-		this.allowOverflow(true);
+		this.setDescription("add a faction warp");
 		
-		this.setDescription("warp use and management");
-				
+		this.addRequiredArgument("name");
+		this.addOptionalArgument("password", "none");
+		
 		this.addRequirement(ReqInFaction.get(this));
-		this.addRequirement(ReqRankAtLeast.get(this, Config.get().minimumUse));
+		this.addRequirement(ReqRankAtLeast.get(this, Config.get().minimumManage));
 	}
 	
 	// -------------------------------------------------- //
@@ -103,7 +104,7 @@ public class CmdWarp extends FactionsCommand {
 		}
 		
 		
-		if (Config.get().secondsWarmup > 0) {
+		if (Config.get().secondsWarmup > 0 && ! this.getFPlayer().asBukkitPlayer().hasPermission("factionswarps.bypass.warmups")) {
 			msg("<green>Teleporting you in <gold>" + Config.get().secondsWarmup + " <green>seconds ...");
 						
 			BukkitTask task = new BukkitRunnable() {

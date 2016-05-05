@@ -19,6 +19,8 @@ public class CmdWarpRemove extends FactionsCommand {
 		
 		this.setDescription("remove a warp");
 		
+		this.setPermission("factions.warp.manage");
+		
 		this.addRequiredArgument("name");
 		
 		this.addRequirement(ReqInFaction.get(this));

@@ -23,6 +23,8 @@ public class CmdWarpList extends FactionsCommand {
 		
 		this.setDescription("show a list of available warps");
 		
+		this.setPermission("factions.warp.list");
+		
 		this.addRequirement(ReqInFaction.get(this));
 		this.addRequirement(ReqRankAtLeast.get(this, Config.get().minimumList));
 	}
