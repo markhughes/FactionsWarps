@@ -4,6 +4,8 @@ import me.markeh.factionsframework.command.FactionsCommand;
 import me.markeh.factionsframework.command.requirements.ReqInFaction;
 import me.markeh.factionsframework.command.requirements.ReqRankAtLeast;
 import me.markeh.factionswarps.Config;
+import me.markeh.factionswarps.event.EventFactionsWarpsRemove;
+import me.markeh.factionswarps.store.WarpData;
 
 public class CmdWarpRemove extends FactionsCommand {
 	
@@ -33,9 +35,29 @@ public class CmdWarpRemove extends FactionsCommand {
 	
 	public void run() throws Exception {
 		if ( ! this.getFPlayer().getRole().isAtLeast(Config.get().minimumManage)) {
-			msg("<red>You must be at least " + Config.get().minimumManage.getDescPlayerMany() + " to manage warps!");
+			msg("<red>You must be at least {required-rank} to manage warps!",
+					"required-rank", Config.get().minimumManage.getDescPlayerMany());
 			return;
 		}
+		
+		String warp = this.getArg(0);
+		
+		EventFactionsWarpsRemove event = new EventFactionsWarpsRemove(this.getFPlayer().getFaction(), this.getFPlayer(), warp);
+		event.call();
+		if (event.isCancelled()) return;
+		
+		WarpData data = WarpData.get(this.getFPlayer().getFaction());
+		
+		if ( ! data.warpExists(warp)) {
+			msg("<red>The warp {name} does not exist!",
+					"name", warp);
+			return;
+		}
+		
+		data.removeWarp(warp);
+		
+		msg("<green>The warp {name} has been removed!",
+				"name", warp);
 	}
 
 }
