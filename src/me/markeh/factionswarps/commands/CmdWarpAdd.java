@@ -8,6 +8,7 @@ import me.markeh.factionsframework.command.requirements.ReqRankAtLeast;
 import me.markeh.factionsframework.entities.Faction;
 import me.markeh.factionsframework.entities.Factions;
 import me.markeh.factionswarps.Config;
+import me.markeh.factionswarps.event.EventFactionsWarpsCreate;
 import me.markeh.factionswarps.store.WarpData;
 
 public class CmdWarpAdd extends FactionsCommand {
@@ -75,8 +76,16 @@ public class CmdWarpAdd extends FactionsCommand {
 			}
 		}
 		
-		if (this.getArg(1) != null) {
-			warpData.addWarp(name, this.getArg(1), location);
+		EventFactionsWarpsCreate event = new EventFactionsWarpsCreate(this.getFPlayer().getFaction(), this.getFPlayer(), location, name, this.getArg(1));
+		event.call();
+		if (event.isCancelled()) return;
+		
+		String password = event.getPassword();
+		name = event.getName();
+		location = event.getLocation();
+		
+		if (password != null) {
+			warpData.addWarp(name, password, location);
 		} else {
 			warpData.addWarp(name, location);
 		}

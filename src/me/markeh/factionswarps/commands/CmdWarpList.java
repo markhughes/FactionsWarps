@@ -7,6 +7,7 @@ import me.markeh.factionsframework.command.FactionsCommand;
 import me.markeh.factionsframework.command.requirements.ReqInFaction;
 import me.markeh.factionsframework.command.requirements.ReqRankAtLeast;
 import me.markeh.factionswarps.Config;
+import me.markeh.factionswarps.event.EventFactionsWarpsList;
 import me.markeh.factionswarps.store.WarpData;
 
 public class CmdWarpList extends FactionsCommand {
@@ -41,10 +42,12 @@ public class CmdWarpList extends FactionsCommand {
 			return;
 		}
 		
+		EventFactionsWarpsList event = new EventFactionsWarpsList(this.getFPlayer().getFaction(), this.getFPlayer());
+		event.call();
+		if (event.isCancelled()) return;
+		
 		WarpData warpData = WarpData.get(this.getFPlayer().getFaction());
-		
-		// \uD83D\uDD12
-		
+				
 		msg(ChatColor.GOLD + "__________.[ " + ChatColor.DARK_GREEN + "Warps" + ChatColor.GOLD + " ].__________");
 		
 		for (String warp : warpData.warpLocations.keySet()) {
@@ -55,7 +58,7 @@ public class CmdWarpList extends FactionsCommand {
 				add = ChatColor.GRAY + " (has password)";
 			}
 			
-			String command = "tellraw " + this.getFPlayer().asBukkitPlayer().getName() +" [\"» \",{\"text\":\""+ warp + add + "\",\"bold\":false,\"underlined\":false,\"clickEvent\":{\"action\":\"" + act + "\",\"value\":\"/f warp use "+ warp + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to use ...\"}]}}}]";
+			String command = "tellraw " + this.getFPlayer().asBukkitPlayer().getName() +" [\"» \",{\"text\":\""+ warp + add + "\",\"bold\":false,\"underlined\":false,\"clickEvent\":{\"action\":\"" + act + "\",\"value\":\"/f warp "+ warp + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to use ...\"}]}}}]";
 			
 			Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
 

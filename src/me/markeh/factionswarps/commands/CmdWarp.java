@@ -15,6 +15,7 @@ import me.markeh.factionsframework.entities.Factions;
 import me.markeh.factionsframework.enums.Rel;
 import me.markeh.factionswarps.Config;
 import me.markeh.factionswarps.FactionsWarps;
+import me.markeh.factionswarps.event.EventFactionsWarpsUse;
 import me.markeh.factionswarps.store.WarpData;
 
 public class CmdWarp extends FactionsCommand {
@@ -64,9 +65,9 @@ public class CmdWarp extends FactionsCommand {
 			return;
 		}
 		
-		if (warpData.hasPassword(warp)) {
-			String password = this.getArg(1);
-			
+		final String password = this.getArg(1);
+		
+		if (warpData.hasPassword(warp)) {			
 			if ( ! warpData.isPassword(warp, password)) {
 				msg("<red>Invalid password, please specify the correct password.");
 				return;
@@ -103,7 +104,6 @@ public class CmdWarp extends FactionsCommand {
 			FactionsWarps.get().cooldownMap.put(this.getFPlayer().getId(), System.currentTimeMillis());
 		}
 		
-		
 		if (Config.get().secondsWarmup > 0 && ! this.getFPlayer().asBukkitPlayer().hasPermission("factionswarps.bypass.warmups")) {
 			msg("<green>Teleporting you in <gold>" + Config.get().secondsWarmup + " <green>seconds ...");
 						
@@ -121,7 +121,11 @@ public class CmdWarp extends FactionsCommand {
 				
 				@Override
 				public void run() {
-					doTeleport(this.teleporting, this.to, this.name);
+					EventFactionsWarpsUse event = new EventFactionsWarpsUse(this.teleporting.getFaction(), this.teleporting, this.name, password, this.to);
+					event.call();
+					if (event.isCancelled()) return;
+					
+					doTeleport(this.teleporting, event.getTargetLocation(), this.name);
 					FactionsWarps.get().warmupMap.remove(this.teleporting.getId());
 				}
 				
@@ -131,7 +135,12 @@ public class CmdWarp extends FactionsCommand {
 			
 			FactionsWarps.get().warmupMap.put(this.getFPlayer().getId(), task);
 		} else {
-			this.doTeleport(this.getFPlayer(), warpData.getLocation(warp), warp);
+			EventFactionsWarpsUse event = new EventFactionsWarpsUse(this.getFPlayer().getFaction(), this.getFPlayer(), warp, password, warpData.getLocation(warp));
+			event.call();
+			if (event.isCancelled()) return;
+			
+			
+			this.doTeleport(this.getFPlayer(), event.getTargetLocation(), warp);
 		}
 	}
 	
