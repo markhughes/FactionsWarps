@@ -125,8 +125,9 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 	@EventHandler
 	public void playerMove(PlayerMoveEvent event) {
 		if (event.getPlayer().hasPermission("factionswarps.bypass.warmups")) return;
-		
-		this.pingWarmup(event.getPlayer());
+		if ((event.getFrom().getBlockX() != event.getTo().getBlockX()) || (event.getFrom().getBlockZ() != event.getTo().getBlockZ())){
+	    	this.pingWarmup(event.getPlayer());
+	    	    }
 	}
 	
 }
