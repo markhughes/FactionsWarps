@@ -53,7 +53,8 @@ public class CmdWarpAdd extends FactionsCommand {
 		Player leader = this.getFPlayer().getFaction().getLeader().asBukkitPlayer();
 		for (PermissionAttachmentInfo perm : leader.getEffectivePermissions()) {
 			if (perm.getPermission().startsWith("factionswarps.warplimit.")) {
-				Integer max = Integer.valueOf(perm.getPermission().split(".")[2]);
+				String split = perm.getPermission().replaceAll("factionswarps.warplimit.", "");
+            	                Integer max = Integer.parseInt(split);
 				
 				if (warpData.warpLocations.size()+1 > max) {
 					msg("<red>You have reached the maximum amount of warps (<gold>{max}<red>) for this faction!",
