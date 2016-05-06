@@ -45,7 +45,7 @@ public class WarpData extends JSONConf<WarpData> {
 	}
 	
 	public final Boolean isPassword(String name, String password) {
-		return (this.warpPasswords.get(this.nameify(name)) == password);
+		return (this.warpPasswords.get(this.nameify(name)).equals(password));
 	}
 	
 	public final Location getLocation(String name) {
