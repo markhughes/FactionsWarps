@@ -14,10 +14,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.markeh.factionsframework.command.FactionsCommandManager;
+import me.markeh.factionsframework.enums.FactionsVersion;
 import me.markeh.factionsframework.event.EventFactionsDisband;
 import me.markeh.factionswarps.commands.*;
 import me.markeh.factionswarps.integration.Integration;
 import me.markeh.factionswarps.integration.vault.IntegrationVault;
+import me.markeh.factionswarps.migration.Migrator;
+import me.markeh.factionswarps.migration.factionsuuid.MigrateFactionsUUID;
 import me.markeh.factionswarps.store.WarpData;
 
 public class FactionsWarps extends JavaPlugin implements Listener {
@@ -63,6 +66,11 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 		// Integrations
 		if (Bukkit.getServer().getPluginManager().isPluginEnabled("Vault")) {
 			Integration.add(IntegrationVault.get());
+		}
+		
+		// Migrations
+		if (FactionsVersion.get() == FactionsVersion.Factions_1_6) {
+			Migrator.add(MigrateFactionsUUID.get());
 		}
 		
 		if (Config.get().metrics) {
@@ -126,8 +134,8 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 	public void playerMove(PlayerMoveEvent event) {
 		if (event.getPlayer().hasPermission("factionswarps.bypass.warmups")) return;
 		if ((event.getFrom().getBlockX() != event.getTo().getBlockX()) || (event.getFrom().getBlockZ() != event.getTo().getBlockZ())){
-	    	this.pingWarmup(event.getPlayer());
-	    	    }
+			this.pingWarmup(event.getPlayer());
+		}
 	}
 	
 }
