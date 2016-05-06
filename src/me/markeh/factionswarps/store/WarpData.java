@@ -15,6 +15,7 @@ import org.bukkit.Location;
 
 import me.markeh.factionsframework.entities.Faction;
 import me.markeh.factionsframework.jsonconf.JSONConf;
+import me.markeh.factionswarps.Config;
 import me.markeh.factionswarps.FactionsWarps;
 
 public class WarpData extends JSONConf<WarpData> {
@@ -45,7 +46,11 @@ public class WarpData extends JSONConf<WarpData> {
 	}
 	
 	public final Boolean isPassword(String name, String password) {
-		return (this.warpPasswords.get(this.nameify(name)) == password);
+		if (Config.get().passwordsCaseSensitive) {
+			return (this.warpPasswords.get(this.nameify(name)).equals(password));
+		}
+		
+		return (this.warpPasswords.get(this.nameify(name)).equalsIgnoreCase(password));
 	}
 	
 	public final Location getLocation(String name) {

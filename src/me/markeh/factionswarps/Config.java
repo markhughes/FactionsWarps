@@ -66,6 +66,9 @@ public class Config extends JSONConf<Config> {
 	public Boolean chargeNotificationOnSuccess = false;
 	public Boolean chargeNotificationOnFail = true;
 	
+	// Are passwords case sensitive?
+	public Boolean passwordsCaseSensitive = false;
+	
 	// Migration
 	public Boolean removeFactionsUUIDWarps = true;
 	public Boolean migrateFactionsUUIDWarps = false;
