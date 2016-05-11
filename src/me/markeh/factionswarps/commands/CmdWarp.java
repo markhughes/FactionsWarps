@@ -37,7 +37,7 @@ public class CmdWarp extends FactionsCommand {
 		this.addOptionalArgument("password", "none");
 		
 		this.addRequirement(ReqInFaction.get(this));
-		this.addRequirement(ReqRankAtLeast.get(this, Config.get().minimumManage));
+		this.addRequirement(ReqRankAtLeast.get(this, Config.get().minimumUse));
 	}
 	
 	// -------------------------------------------------- //
