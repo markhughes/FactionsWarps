@@ -93,10 +93,15 @@ public class CmdWarp extends FactionsCommand {
 			if (FactionsWarps.get().cooldownMap.containsKey(this.getFPlayer().getId())) {
 				Long lastWarpAt = FactionsWarps.get().cooldownMap.get(this.getFPlayer().getId());
 				
-				Long compare = System.currentTimeMillis() - lastWarpAt;
+				Long compare = Config.get().secondsCooldown - ((System.currentTimeMillis() - lastWarpAt) / 1000);
 				
-				if (compare < Config.get().secondsCooldown * 1000 || (Config.get().secondsLenient || compare < 0.85)) {
-					msg("<red>You must wait <gold>" + Config.get().secondsCooldown + " seconds<red> between warps! You have <gold>" + compare/1000 + " <red>seconds left.");
+				if (compare > 0L) {
+					if (Config.get().secondsLenient && compare < (long) 0.85) {
+						
+					} else {
+						msg("<red>You must wait <gold>" + Config.get().secondsCooldown + " seconds<red> between warps! You have <gold>" + compare + " seconds<red> left.");
+					}
+					
 					return;
 				}
 			}
