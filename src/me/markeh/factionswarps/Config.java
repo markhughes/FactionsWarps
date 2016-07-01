@@ -43,6 +43,15 @@ public class Config extends JSONConf<Config> {
 	// Should warps only be in the territory?
 	public Boolean mustBeInTerritory = true;
 	
+	// Minimums to create
+	public Integer reqMinimumMembers = 0;
+	public Double reqMinimumFactionPower = 0.0;
+	public Integer reqMinimumClaims = 0;
+	
+	// Should requirements block setting and/or use warps?
+	public Boolean reqBlocksSetWarp = true;
+	public Boolean reqBlocksUseWarp = true;
+	
 	// Warmups and cooldowns
 	public Integer secondsWarmup = 3;
 	public Integer secondsCooldown = 5;

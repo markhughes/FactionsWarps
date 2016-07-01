@@ -47,14 +47,40 @@ public class CmdWarpAdd extends FactionsCommand {
 			return;
 		}
 		
+		// Check requirements ..
+		
+		if (Config.get().reqMinimumClaims > 0 && Config.get().reqBlocksSetWarp) {
+			if (this.getFPlayer().getFaction().getLandCount() < Config.get().reqMinimumClaims) {
+				msg("<red>You need to have claimed at least {min} chunks to create warps.",
+					"min", Config.get().reqMinimumClaims.toString());
+				return;
+			}
+		}
+		
+		if (Config.get().reqMinimumMembers > 0 && Config.get().reqBlocksSetWarp) {
+			if (this.getFPlayer().getFaction().getMembers().size() < Config.get().reqMinimumMembers) {
+				msg("<red>You need to have at least {min} members to create warps.",
+					"min", Config.get().reqMinimumMembers.toString());
+				return;
+			}
+		}
+		
+		if (Config.get().reqMinimumFactionPower > 0 && Config.get().reqBlocksSetWarp) {
+			if (this.getFPlayer().getFaction().getPower() < Config.get().reqMinimumFactionPower) {
+				msg("<red>Your faction must have at least {min} power to create warps.",
+					"min", Config.get().reqMinimumFactionPower.toString());
+				return;
+			}
+		}
+		
 		// Fetch our warp data
 		WarpData warpData = WarpData.get(this.getFPlayer().getFaction());
 		
-		Player leader = this.getFPlayer().getFaction().getLeader().asBukkitPlayer();
+		Player leader = this.getFPlayer().getFaction().leader().get().asBukkitPlayer();
 		for (PermissionAttachmentInfo perm : leader.getEffectivePermissions()) {
 			if (perm.getPermission().startsWith("factionswarps.warplimit.")) {
 				String split = perm.getPermission().replaceAll("factionswarps.warplimit.", "");
-            	                Integer max = Integer.parseInt(split);
+            	Integer max = Integer.parseInt(split);
 				
 				if (warpData.warpLocations.size()+1 > max) {
 					msg("<red>You have reached the maximum amount of warps (<gold>{max}<red>) for this faction!",
@@ -109,7 +135,8 @@ public class CmdWarpAdd extends FactionsCommand {
 			warpData.addWarp(name, location);
 		}
 		
-		msg("<green>The warp <aqua>{name} <green>has been set at your location!", "name", name);
+		msg("<green>The warp <aqua>{name} <green>has been set at your location!",
+			"name", name);
 	}
 	
 }

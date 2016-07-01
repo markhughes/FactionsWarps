@@ -65,6 +65,32 @@ public class CmdWarp extends FactionsCommand {
 			return;
 		}
 		
+		// Check our requirements...
+		
+		if (Config.get().reqMinimumClaims > 0 && Config.get().reqBlocksUseWarp) {
+			if (this.getFPlayer().getFaction().getLandCount() < Config.get().reqMinimumClaims) {
+				msg("<red>You need to have claimed at least {min} chunks to use warps.",
+					"min", Config.get().reqMinimumClaims.toString());
+				return;
+			}
+		}
+		
+		if (Config.get().reqMinimumMembers > 0 && Config.get().reqBlocksUseWarp) {
+			if (this.getFPlayer().getFaction().getMembers().size() < Config.get().reqMinimumMembers) {
+				msg("<red>You need to have at least {min} members to use warps.",
+					"min", Config.get().reqMinimumMembers.toString());
+				return;
+			}
+		}
+		
+		if (Config.get().reqMinimumFactionPower > 0 && Config.get().reqBlocksUseWarp) {
+			if (this.getFPlayer().getFaction().getPower() < Config.get().reqMinimumFactionPower) {
+				msg("<red>Your faction must have at least {min} power to use warps.",
+					"min", Config.get().reqMinimumFactionPower.toString());
+				return;
+			}
+		}
+		
 		final String password = this.getArg(1);
 		
 		if (warpData.hasPassword(warp)) {			
