@@ -1,7 +1,7 @@
 main: me.markeh.factionswarps.FactionsWarps
 name: FactionsWarps
-version: 1.1.1
+version: 1.2.0-SNAPSHOT
 website: http://ma.rkhugh.es/factionswarps
 authors: [ MarkehMe ]
 description: §eFactionsWarps adds warps and other teleportation features. §aMarkehMe §eis the lead programmer. See §bhttp://ma.rkhugh.es/factionswarps§e for more information.
-softdepend: [ FactionsFramework ]
+softdepend: [ FactionsFramework, Vault ]
