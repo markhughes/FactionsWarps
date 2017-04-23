@@ -51,7 +51,7 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 		
 		if ( ! this.getServer().getPluginManager().isPluginEnabled("FactionsFramework")) {
 			log(ChatColor.RED + "This plugin requires Factions Framework!");
-			log(ChatColor.AQUA + "- Bukkit Dev: " + ChatColor.UNDERLINE + "http://dev.bukkit.org/bukkit-plugins/factionsframework/");
+			log(ChatColor.AQUA + "- Bukkit Dev: " + ChatColor.UNDERLINE + "https://dev.bukkit.org/projects/factionswarps/");
 			log(ChatColor.AQUA + "- Spigot Resources: " + ChatColor.UNDERLINE + "https://www.spigotmc.org/resources/factions-framework.22278/");
 			return;
 		}
