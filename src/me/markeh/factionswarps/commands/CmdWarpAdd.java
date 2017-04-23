@@ -130,6 +130,10 @@ public class CmdWarpAdd extends FactionsCommand {
 		location = event.getLocation();
 		
 		if (password != null) {
+			if (!this.getFPlayer().asBukkitPlayer().hasPermission("factionswarps.password")) {
+				msg("<red>You don't have permission to set warp passwords.");
+				return;
+			}
 			warpData.addWarp(name, password, location);
 		} else {
 			warpData.addWarp(name, location);
