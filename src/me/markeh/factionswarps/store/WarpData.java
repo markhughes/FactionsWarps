@@ -119,8 +119,8 @@ public class WarpData extends JSONConf<WarpData> {
         		Double.parseDouble(rawArray[1]),
         		Double.parseDouble(rawArray[2]),
         		Double.parseDouble(rawArray[3]),
-        		Float.parseFloat(rawArray[4]),
-        		Float.parseFloat(rawArray[5]));
+        		Float.parseFloat(rawArray[5]),
+        		Float.parseFloat(rawArray[4]));
 
 		return location;
 	}
