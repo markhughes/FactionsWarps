@@ -78,7 +78,6 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 				metrics = new Metrics(this);
 				metrics.enable();
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}
