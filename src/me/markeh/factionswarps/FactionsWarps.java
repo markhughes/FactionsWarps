@@ -73,7 +73,7 @@ public class FactionsWarps extends JavaPlugin implements Listener {
 			Migrator.add(MigrateFactionsUUID.get());
 		}
 		
-		if (Config.get().metrics) {
+		if (Config.get().enableMetrics) {
 			try {
 				metrics = new Metrics(this);
 				metrics.enable();

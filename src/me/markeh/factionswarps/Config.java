@@ -33,7 +33,7 @@ public class Config extends JSONConf<Config> {
 	// -------------------------------------------------- //
 	
 	// Should metrics be enabled?
-	public Boolean metrics = true;
+	public Boolean enableMetrics = true;
 	
 	// Minimum ranks for managing, lising, and using warps
 	public Rel minimumManage = Rel.OFFICER;
